@@ -24,7 +24,7 @@ import Slider from './Slider';
 // @ts-ignore
 import Spinner from './Spinner';
 import Switch from './Switch';
-import Textfield from './Textfield';
+import Progress from './Progress';
 
 export {
   AccentFab,
@@ -46,7 +46,7 @@ export {
   Slider,
   Spinner,
   Switch,
-  Textfield,
+  Progress
 };
 
 // Types
