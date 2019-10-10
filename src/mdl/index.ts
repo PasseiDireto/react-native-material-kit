@@ -21,6 +21,7 @@ import Ripple from './Ripple';
 // @ts-ignore
 import Spinner from './Spinner';
 import Switch from './Switch';
+import Progress from './Progress';
 
 export {
   AccentFab,
@@ -39,6 +40,7 @@ export {
   Ripple,
   Spinner,
   Switch,
+  Progress
 };
 
 // Types
