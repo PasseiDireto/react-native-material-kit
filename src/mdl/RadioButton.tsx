@@ -1,10 +1,13 @@
-/**
- * MDL-style Radio button component.
- *
- * See [MDL Radio Button](http://www.getmdl.io/components/index.html#toggles-section/radio)
- *
- * Created by ywu on 15/10/12.
- */
+//
+// MDL-style Radio button component.
+//
+// - @see [MDL Radio Button](http://www.getmdl.io/components/index.html#toggles-section/radio)
+// - [Props](#props)
+// - [Defaults](#defaults)
+//
+// Created by ywu on 15/10/12.
+//
+
 import React, { Component } from 'react';
 
 import {
@@ -25,8 +28,8 @@ import Ripple, { RippleProps } from './Ripple';
 
 const DEFAULT_EXTRA_RIPPLE_RADII = 16;
 
-/** Props of {@link RadioButton} */
-export interface RadioButtonProps extends RippleProps, TouchableWithoutFeedbackProps {
+// ## <section id='props'>Props</section>
+export type RadioButtonProps = {
   // Color of the border (outer circle), when checked
   borderOnColor?: string;
 
@@ -48,16 +51,15 @@ export interface RadioButtonProps extends RippleProps, TouchableWithoutFeedbackP
   // How far the ripple can extend outside the RadioButton's border,
   // default is 16
   extraRippleRadius?: number;
-}
+} & RippleProps &
+  TouchableWithoutFeedbackProps;
 
-/** State of {@link RadioButton} */
 interface RadioButtonState {
   checked: boolean;
   height: number;
   width: number;
 }
 
-/** Default props of {@link RadioButton} */
 const defaultProps: RadioButtonProps = {
   maskColor: MKColor.Transparent,
   pointerEvents: 'box-only',
@@ -71,14 +73,11 @@ const defaultProps: RadioButtonProps = {
   },
 };
 
-/**
- * The `RadioButton` component.
- *
- * @remarks
- * See {@link https://material.io/components/selection-controls/#radio-buttons | Guideline} & {@link http://www.getmdl.io/components/index.html#toggles-section/radio | MDL implementation}
- */
+//
+// ## <section id='RadioButton'>RadioButton</section>
+// The `RadioButton` component.
 export default class RadioButton extends Component<RadioButtonProps, RadioButtonState> {
-  /** Default props */
+  // ## <section id='defaults'>Defaults</section>
   static defaultProps: RadioButtonProps = defaultProps;
 
   private theme = getTheme();
@@ -123,7 +122,8 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
     const prevState = this.state.checked;
     const newState = !prevState;
 
-    this.setState({ checked: newState }, () => this.emitCheckedChange(newState));
+    this.setState({checked: newState},
+      () => this.emitCheckedChange(newState));
 
     // update state of the other buttons in the group
     this.group && this.group.onChecked(this, newState);
@@ -132,17 +132,19 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
   }
 
   confirmUncheck() {
-    this.setState({ checked: false }, () => this.emitCheckedChange(false));
+    this.setState({checked: false},
+      () => this.emitCheckedChange(false));
     this.aniChecked(false);
   }
 
   render() {
     const defaultStyle = this.theme.radioStyle;
-    const mergedStyle = Object.assign(
-      {},
-      defaultStyle,
-      utils.extractProps(this, ['borderOnColor', 'borderOffColor', 'fillColor', 'rippleColor'])
-    ) as RadioButtonProps;
+    const mergedStyle = Object.assign({}, defaultStyle, utils.extractProps(this, [
+      'borderOnColor',
+      'borderOffColor',
+      'fillColor',
+      'rippleColor',
+    ])) as RadioButtonProps;
     const borderColor = this.state.checked ? mergedStyle.borderOnColor : mergedStyle.borderOffColor;
 
     return (
@@ -160,7 +162,14 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
             width: this.state.width,
           }}
         >
-          <View style={[defaultProps.style, { borderColor }, this.props.style]} onLayout={this.onLayout}>
+          <View
+            style={[
+              defaultProps.style,
+              {borderColor},
+              this.props.style,
+            ]}
+            onLayout={this.onLayout}
+          >
             <Animated.View
               style={{
                 backgroundColor: mergedStyle.fillColor,
@@ -184,7 +193,7 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
     this.props.onCheckedChange && this.props.onCheckedChange({ checked });
   }
 
-  /** animate the checked state, by scaling the inner circle */
+  // animate the checked state, by scaling the inner circle
   private aniChecked(checked: boolean) {
     Animated.parallel([
       Animated.timing(this.animatedRadius, {
@@ -198,12 +207,7 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
     ]).start();
   }
 
-  /** Layout event handler */
-  private onLayout = ({
-    nativeEvent: {
-      layout: { width, height },
-    },
-  }: LayoutChangeEvent) => {
+  private onLayout = ({nativeEvent: {layout: {width, height}}}: LayoutChangeEvent) => {
     if (width === this.state.width && height === this.state.height) {
       return;
     }
@@ -215,8 +219,8 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
     });
   };
 
-  /** Touch event handler */
-  private onTouch = ({ type }: TouchEvent) => {
+  // Touch events handling
+  private onTouch = ({type}: TouchEvent) => {
     if (type === 'TOUCH_UP') {
       if (!this.state.checked) {
         this.confirmToggle();

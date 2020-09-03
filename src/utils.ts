@@ -2,11 +2,29 @@
 //
 // Created by ywu on 15/7/18.
 //
-import PropTypes from 'prop-types';
-import { Component } from 'react';
-import { PixelRatio, Platform, processColor, TouchableWithoutFeedback } from 'react-native';
 
-import { compose, indexOf, isNil, keys, not, ObjPred, partial, pickBy, reject } from 'ramda';
+import PropTypes from 'prop-types'
+import { Component } from 'react'
+import {
+  PixelRatio,
+  Platform,
+  processColor,
+  TouchableWithoutFeedback,
+  View,
+  ViewPropTypes as RNViewPropTypes,
+} from 'react-native'
+
+import {
+  compose,
+  indexOf,
+  isNil,
+  keys,
+  not,
+  ObjPred,
+  partial,
+  pickBy,
+  reject,
+} from 'ramda'
 
 // Add some is-Type methods:
 function isType(type: string, obj: any): boolean {
@@ -24,10 +42,7 @@ export const isError = partial(isType, ['Error']);
 // Remove keys with null value from the given object
 const compact = reject(isNil);
 
-const isNotNil = compose(
-  not,
-  isNil
-);
+const isNotNil = compose(not, isNil);
 
 function capitalize(str: string) {
   return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -77,6 +92,9 @@ function extractTouchableProps(view: Component) {
   });
 }
 
+// @ts-ignore: View.propTypes
+const ViewPropTypes = RNViewPropTypes || View.propTypes;
+
 // ## Public interface
 export {
   capitalize,
@@ -89,4 +107,5 @@ export {
   extractPropsBy,
   extractTouchableProps,
   processColor as parseColor, // parse stringified color as int
-};
+  ViewPropTypes,
+}

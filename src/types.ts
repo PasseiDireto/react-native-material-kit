@@ -15,11 +15,3 @@ export interface Dimension {
   width: number;
   height: number;
 }
-
-/** Numeric range */
-export interface NumRange {
-  min: number;
-  max: number;
-}
-
-export type RippleLocation = 'tapLocation' | 'center';

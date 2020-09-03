@@ -1,15 +1,74 @@
 {
-  "name": "react-native-material-kit",
-  "version": "0.6.0-beta.2",
-  "description": "Bringing Material Design to React Native",
-  "main": "lib/index.js",
-  "typings": "lib/react-native-material-kit.d.ts",
-  "author": "Yingxin Wu <yingxinwu.g@gmail.com>",
-  "contributors": [
-    "Quentin Valmori (https://github.com/Crash--)",
-    "Alexander Price (https://github.com/alexprice91)"
+  "_from": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
+  "_id": "react-native-material-kit@0.5.1",
+  "_inBundle": false,
+  "_integrity": "sha512-h+UPUZgnAEwMYQwHJOJyt25Ev1RLBGNA22rgEtJm/J1aOCFquBleJtkp31kNLj1Qp3fIKeig1EPCeK7jA+AFOA==",
+  "_location": "/react-native-material-kit",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "remote",
+    "raw": "react-native-material-kit@https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
+    "name": "react-native-material-kit",
+    "escapedName": "react-native-material-kit",
+    "rawSpec": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
+    "saveSpec": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
+    "fetchSpec": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master"
+  },
+  "_requiredBy": [
+    "/"
   ],
-  "license": "MIT",
+  "_resolved": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
+  "_shasum": "8eb0707872911f7a0d391dc979d34da71c01c678",
+  "_spec": "react-native-material-kit@https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
+  "_where": "/Users/arthur.garcia/Dev/PD/mobile/signin/mobile-app",
+  "author": {
+    "name": "Yingxin Wu",
+    "email": "yingxinwu.g@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/xinthink/react-native-material-kit/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Quentin Valmori",
+      "url": "https://github.com/Crash--"
+    },
+    {
+      "name": "Alexander Price",
+      "url": "https://github.com/alexprice91"
+    }
+  ],
+  "dependencies": {
+    "ramda": "^0.25.0"
+  },
+  "deprecated": false,
+  "description": "Bringing Material Design to React Native",
+  "devDependencies": {
+    "@microsoft/api-documenter": "^7.3.11",
+    "@microsoft/api-extractor": "^7.3.4",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "@types/jest": "^24.0.16",
+    "@types/ramda": "^0.25.40",
+    "@types/react-native": "^0.57.7",
+    "@types/react-test-renderer": "^16.8.3",
+    "babel-eslint": "^9.0.0",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "jest": "^24.8.0",
+    "react-native-typescript-transformer": "^1.2.10",
+    "react-test-renderer": "^16.8.6",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.1.3"
+  },
+  "homepage": "https://github.com/xinthink/react-native-material-kit",
   "keywords": [
     "react",
     "native",
@@ -21,52 +80,26 @@
     "material design",
     "MaterialKit"
   ],
-  "homepage": "https://github.com/xinthink/react-native-material-kit",
-  "bugs": "https://github.com/xinthink/react-native-material-kit/issues",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/xinthink/react-native-material-kit.git"
-  },
-  "devDependencies": {
-    "@microsoft/api-documenter": "^7.3.11",
-    "@microsoft/api-extractor": "^7.3.4",
-    "@react-native-community/eslint-config": "~0.0.7",
-    "@types/jest": "^25.1.0",
-    "@types/ramda": "^0.26.0",
-    "@types/react-native": "^0.57.7",
-    "@types/react-test-renderer": "^16.9.0",
-    "babel-eslint": "^10.0.3",
-    "babel-jest": "^25.1.0",
-    "eslint": "^6.8.0",
-    "jest": "^25.1.0",
-    "react-native-typescript-transformer": "^1.2.13",
-    "react-test-renderer": "^16.12.0",
-    "tslint": "^6.0.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^9.0.0",
-    "tslint-react": "^4.2.0",
-    "typescript": "^3.7.5"
-  },
-  "dependencies": {
-    "ramda": "^0.27.0"
-  },
+  "license": "MIT",
+  "main": "src/index.ts",
+  "name": "react-native-material-kit",
   "peerDependencies": {
     "react": "*",
     "react-native": ">=0.50.0"
   },
-  "scripts": {
-    "lint": "tslint -p .",
-    "test": "jest",
-    "build": "yarn lint && tsc",
-    "build-docs": "yarn clean && yarn setup && yarn ln && yarn build && api-extractor run --local --verbose && yarn api-md",
-    "clean": "rm -rf lib temp etc dist docs && yarn clean-ln",
-    "clean-ln": "rm -f src/mdl/Spinner.tsx",
-    "ln": "ln -f src/mdl/Spinner.ios.tsx src/mdl/Spinner.tsx",
-    "build-publish": "yarn build-docs && yarn clean-ln && rm lib/mdl/Spinner.js",
-    "setup": "mkdir temp etc dist docs",
-    "api-md": "api-documenter markdown --input-folder temp --output-folder docs/api"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/xinthink/react-native-material-kit.git"
   },
-  "jest": {
-    "testPathIgnorePatterns": [ "/node_modules/", "/example/" ]
-  }
+  "scripts": {
+    "api-md": "api-documenter markdown --input-folder temp --output-folder docs",
+    "build": "yarn lint && tsc",
+    "build-docs": "yarn clean && yarn setup && yarn build && api-extractor run --local --verbose && yarn api-md",
+    "clean": "rm -rf src temp etc dist docs",
+    "lint": "tslint -p .",
+    "setup": "mkdir temp etc dist docs",
+    "test": "jest"
+  },
+  "typings": "src/react-native-material-kit.d.ts",
+  "version": "0.5.1"
 }

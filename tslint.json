@@ -16,7 +16,6 @@
   },
   "rules": {
     "member-access": false,
-    "interface-name": false,
-    "object-literal-sort-keys": false
+    "interface-name": false
   }
 }
