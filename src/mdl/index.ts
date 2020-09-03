@@ -5,6 +5,7 @@
 import Button, {
   AccentFab,
   AccentRaisedButton,
+  ButtonStyles,
   ColoredFab,
   ColoredRaisedButton,
   Fab,
@@ -14,22 +15,19 @@ import Button, {
 
 import Checkbox from './Checkbox';
 import IconToggle from './IconToggle';
-import IndeterminateProgress from './IndeterminateProgress';
-import Progress from './Progress';
 import RadioButton from './RadioButton';
 import RadioButtonGroup from './RadioButtonGroup';
-import RangeSlider from './RangeSlider';
 import Ripple from './Ripple';
-import Slider from './Slider';
 // @ts-ignore
 import Spinner from './Spinner';
 import Switch from './Switch';
-import Textfield from './Textfield';
+import Progress from './Progress';
 
 export {
   AccentFab,
   AccentRaisedButton,
   Button,
+  ButtonStyles,
   ColoredFab,
   ColoredRaisedButton,
   Fab,
@@ -37,28 +35,20 @@ export {
   RaisedButton,
   Checkbox,
   IconToggle,
-  IndeterminateProgress,
-  Progress,
   RadioButton,
   RadioButtonGroup,
-  RangeSlider,
   Ripple,
-  Slider,
   Spinner,
   Switch,
-  Textfield,
+  Progress
 };
 
 // Types
-export { ButtonProps, ButtonStyles } from './Button';
+export { ButtonProps } from './Button';
 export { CheckboxProps } from './Checkbox';
 export { IconToggleProps } from './IconToggle';
-export { ProgressProps, SimpleProgressProps } from './progress_common';
 export { RadioButtonProps } from './RadioButton';
-export { RangeSliderProps } from './RangeSlider';
 export { RippleProps } from './Ripple';
-export { SliderProps } from './Slider';
 export { SpinnerProps } from './spinner_common';
 export { SwitchProps } from './Switch';
-export { TextfieldProps } from './Textfield';
 export * from '../types';

@@ -1,18 +1,15 @@
 /* tslint:disable:max-classes-per-file */
-/**
- * Theme definition.
- *
- * Created by ywu on 15/7/18.
- */
-import MKColor from './MKColor';
+// Theme definition
+//
+// Created by ywu on 15/7/18.
+//
+import MKColor from './MKColor'
 
-export type AttrValue = string | number | Theme | AttrReference;
-export type NullableAttrValue = AttrValue | null | undefined;
-export interface Theme {
-  [name: string]: AttrValue;
-}
-export type Style = object | any[];
-export type NullableStyle = object | any[] | null | undefined;
+export type AttrValue = string | number | Theme | AttrReference
+export type NullableAttrValue = AttrValue | null | undefined
+export interface Theme {[name: string]: AttrValue}
+export type Style = object | any[]
+export type NullableStyle = object | any[] | null | undefined
 
 const theme: Theme = {};
 
@@ -175,16 +172,13 @@ Object.assign(theme, {
 });
 
 function isPlainObject(o: any): boolean {
-  return (
-    typeof o === 'object' &&
-    !Array.isArray(o) &&
-    o !== null &&
-    !(o instanceof String) &&
-    !(o instanceof Function)
-  );
+  return typeof o === 'object' && !Array.isArray(o) && o !== null
+    && !(o instanceof String) && !(o instanceof Function);
 }
 
-/** Wrap style object with custom getter, for resolving the attribute references. */
+//
+// Wrap style object with custom getter, for resolving the attribute references.
+//
 function wrapAttrRef(style: any, attr: string, attrValue: AttrReference) {
   Object.defineProperty(style, attr, {
     enumerable: true,
@@ -194,9 +188,11 @@ function wrapAttrRef(style: any, attr: string, attrValue: AttrReference) {
   });
 }
 
-/** Wrap all style attributes with custom getter, recursively */
+//
+// Wrap all style attributes with custom getter, recursively
+//
 function wrapStyle(style: any) {
-  Object.getOwnPropertyNames(style).forEach(attr => {
+  Object.getOwnPropertyNames(style).forEach((attr) => {
     const v = style[attr];
     if (v instanceof AttrReference) {
       wrapAttrRef(style, attr, v);
@@ -211,17 +207,20 @@ function wrapStyle(style: any) {
 // Wrap the theme object, in order to resolving the attribute references.
 wrapStyle(theme);
 
-/**
- * Set the current theme.
- * @param `aTheme` the new {@link Theme}
- *
- * See http://www.getmdl.io/customize
- */
+//
+// ## <section id='setTheme'>setTheme</section>
+// Set the current theme
+// - {object} `theme` new [theme](#theme)
+// - @see http://www.getmdl.io/customize
+//
 export function setTheme(aTheme: Theme) {
   Object.assign(theme, wrapStyle(aTheme));
 }
 
-/** Retrieve a copy of the current theme */
+//
+// ## <section id='getTheme'>getTheme</section>
+// Retrieve a copy of the current theme
+//
 export function getTheme(): Theme {
   return Object.assign({}, theme);
 }
@@ -231,4 +230,4 @@ export default {
   RGBAttrReference,
   accentColorRef,
   primaryColorRef,
-};
+}

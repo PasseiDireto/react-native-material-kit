@@ -1,48 +1,56 @@
-/**
- * MDL-style Icon Toggle component.
- *
- * See {@link https://getmdl.io/components/index.html#toggles-section/icon-toggle | MDL Icon Toggle}
- *
- * Created by ywu on 15/10/07.
- */
-import React, { Children, Component, ReactChild } from 'react';
-import { TouchableWithoutFeedback, TouchableWithoutFeedbackProps } from 'react-native';
+//
+// MDL-style Icon Toggle component.
+//
+// - @see [MDL Icon Toggle](http://bit.ly/1OUYzem)
+// - [Props](#props)
+// - [Defaults](#defaults)
+//
+// Created by ywu on 15/10/07.
+//
 
-import { TouchEvent } from '../internal/MKTouchable';
+import React, {
+  Children,
+  Component,
+  ReactChild,
+} from 'react';
+
+import {
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackProps,
+} from 'react-native';
+
+import {TouchEvent} from '../internal/MKTouchable';
 import MKColor from '../MKColor';
-import { getTheme } from '../theme';
-import { CheckedListener, NullableReactChild } from '../types';
+import {getTheme} from '../theme';
+import {CheckedListener, NullableReactChild} from '../types';
 import * as utils from '../utils';
-import Ripple, { RippleProps } from './Ripple';
+import Ripple, {RippleProps} from './Ripple';
 
-/** Check if the `stateChecked` prop matches the `isChecked` state. */
+// Check if the `stateChecked` prop matches the `isChecked` state.
 function isViewForState(view: ReactChild, isChecked: boolean): boolean {
-  if (!view) {
-    return false;
-  }
+  if (!view) return false;
 
   // @ts-ignore
   const props = view.hasOwnProperty('props') ? view.props : {};
   return (props.stateChecked && isChecked) || !(props.stateChecked || isChecked);
 }
 
-/** Props of {@link IconToggle} */
-export interface IconToggleProps extends RippleProps, TouchableWithoutFeedbackProps {
+// ## <section id='props'>Props</section>
+export type IconToggleProps = {
   enabled?: boolean;
 
-  /** Toggle status */
+  // Toggle status
   checked?: boolean;
 
-  /** Callback when the toggle status is changed */
+  // Callback when the toggle status is changed
   onCheckedChange?: CheckedListener;
-}
+} & RippleProps &
+  TouchableWithoutFeedbackProps;
 
-/** Props of {@link IconToggle} */
 interface IconToggleState {
   checked: boolean;
 }
 
-/** Default props of {@link IconToggle} */
 const defaultProps: IconToggleProps = {
   checked: false,
   enabled: true,
@@ -58,13 +66,11 @@ const defaultProps: IconToggleProps = {
   },
 };
 
-/**
- * The `IconToggle` component.
- *
- * See {@link https://getmdl.io/components/index.html#toggles-section/icon-toggle | MDL implementation}
- */
+//
+// ## <section id='IconToggle'>IconToggle</section>
+// The `IconToggle` component.
 export default class IconToggle extends Component<IconToggleProps, IconToggleState> {
-  /** Default props */
+  // ## <section id='defaults'>Defaults</section>
   static defaultProps: IconToggleProps = defaultProps;
 
   private theme = getTheme();
@@ -85,13 +91,9 @@ export default class IconToggle extends Component<IconToggleProps, IconToggleSta
   }
 
   render() {
-    const mergedStyle = Object.assign(
-      {},
-      this.theme.iconToggleStyle,
-      utils.compact({
-        rippleColor: this.props.rippleColor,
-      })
-    ) as IconToggleProps;
+    const mergedStyle = Object.assign({}, this.theme.iconToggleStyle, utils.compact({
+      rippleColor: this.props.rippleColor,
+    })) as IconToggleProps;
 
     return (
       <TouchableWithoutFeedback {...utils.extractTouchableProps(this)}>
@@ -109,28 +111,28 @@ export default class IconToggle extends Component<IconToggleProps, IconToggleSta
     );
   }
 
-  /**
-   * Select a child element to show for the current toggle status.
-   * @see [State List](http://developer.android.com/guide/topics/resources/drawable-resource.html#StateList) in Android development
-   */
+  // Select a child element to show for the current toggle status.
+  //
+  // @see [State List](http://developer.android.com/guide/topics/resources/drawable-resource.html#StateList) in Android development
   private renderChildren = () =>
     Children.map<NullableReactChild>(this.props.children, child =>
-      child && isViewForState(child, this.state.checked) ? child : undefined
+      (child && isViewForState(child, this.state.checked)) ? child : undefined
     );
 
-  /** Touch event handler */
-  private onTouch = ({ type }: TouchEvent) => {
+  // Touch events handling
+  private onTouch = ({type}: TouchEvent) => {
     if (type === 'TOUCH_UP') {
       this.confirmToggle();
     }
   };
 
-  /** When a toggle action (from the given state) is confirmed. */
+  // When a toggle action (from the given state) is confirmed.
   private confirmToggle() {
     const prevState = this.state.checked;
-    this.setState(
-      { checked: !prevState },
-      () => this.props.onCheckedChange && this.props.onCheckedChange({ checked: this.state.checked })
-    );
+    this.setState({ checked: !prevState }, () => {
+      if (this.props.onCheckedChange) {
+        this.props.onCheckedChange({checked: this.state.checked});
+      }
+    });
   }
 }

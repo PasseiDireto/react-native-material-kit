@@ -1,14 +1,17 @@
-/**
- * MDL-style Checkbox component.
- *
- * See {@link http://www.getmdl.io/components/index.html#toggles-section/checkbox | MDL Checkbox}
- *
- * Created by ywu on 15/12/13.
- */
+//
+// MDL-style Checkbox component.
+//
+// - @see [MDL Checkbox](http://www.getmdl.io/components/index.html#toggles-section/checkbox)
+// - [Props](#props)
+// - [Defaults](#defaults)
+//
+// Created by ywu on 15/12/13.
+//
+
 import React, { Component } from 'react';
 import {
   Animated,
-  LayoutChangeEvent,
+  LayoutChangeEvent, Text,
   TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps,
   View,
@@ -24,30 +27,33 @@ import Ripple, { RippleProps } from './Ripple';
 
 const DEFAULT_EXTRA_RIPPLE_RADII = 5;
 
-/** Props of {@link Checkbox} */
+/**
+ * ## <section id='props'>Props</section>
+ * @public
+ */
 export type CheckboxProps = {
-  /** Color of the border (outer circle), when checked */
+  // Color of the border (outer circle), when checked
   borderOnColor?: string;
 
-  /** Color of the border (outer circle), when unchecked */
+  // Color of the border (outer circle), when unchecked
   borderOffColor?: string;
 
-  /** Toggle status */
+  // Toggle status
   checked?: boolean;
 
-  /** Callback when the toggle status is changed */
+  // Callback when the toggle status is changed
   onCheckedChange?: CheckedListener;
 
-  /** How far the ripple can extend outside the Checkbox's border, `5` by default */
+  // How far the ripple can extend outside the Checkbox's border,
+  // default is 5
   extraRippleRadius?: number;
 
-  /** Toggle Editable */
+  // Toggle Editable
   editable?: boolean;
 } & TickProps &
   RippleProps &
   TouchableWithoutFeedbackProps;
 
-/** State of {@link Checkbox} */
 interface CheckboxState {
   checked: boolean;
   width: number;
@@ -55,7 +61,6 @@ interface CheckboxState {
   rippleRadii: number;
 }
 
-/** Default props of {@link Checkbox} */
 const defaultProps: CheckboxProps = {
   checked: false,
   editable: true,
@@ -76,12 +81,9 @@ const defaultProps: CheckboxProps = {
 
 /**
  * The `Checkbox` component.
- *
- * @remarks
- * See {@link https://material.io/components/selection-controls/#checkboxes | Guideline} & {@link http://www.getmdl.io/components/index.html#toggles-section/checkbox | MDL implementation}
  */
 export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
-  /** Default props */
+  // ## <section id='defaults'>Defaults</section>
   static defaultProps: CheckboxProps = defaultProps;
 
   private theme = getTheme();
@@ -113,11 +115,13 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
 
   render() {
     const defaultStyle = this.theme.checkboxStyle;
-    const mergedStyle = Object.assign(
-      {},
-      defaultStyle,
-      utils.extractProps(this, ['borderOnColor', 'borderOffColor', 'fillColor', 'rippleColor', 'inset'])
-    ) as CheckboxProps;
+    const mergedStyle = Object.assign({}, defaultStyle, utils.extractProps(this, [
+      'borderOnColor',
+      'borderOffColor',
+      'fillColor',
+      'rippleColor',
+      'inset',
+    ])) as CheckboxProps;
     const borderColor = this.state.checked ? mergedStyle.borderOnColor : mergedStyle.borderOffColor;
 
     return (
@@ -165,19 +169,14 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
     this.aniToggle(checked);
   }
 
-  /** Layout event handler */
-  private onLayout = ({
-    nativeEvent: {
-      layout: { width, height },
-    },
-  }: LayoutChangeEvent) => {
+  private onLayout = ({nativeEvent: {layout: {width, height}}}: LayoutChangeEvent) => {
     if (width === this.state.width && height === this.state.height) {
       return;
     }
 
     const size = Math.min(width, height);
-    const rippleRadii =
-      (size * Math.SQRT2) / 2 + (this.props.extraRippleRadius || DEFAULT_EXTRA_RIPPLE_RADII);
+    const rippleRadii = size * Math.SQRT2 / 2 + (this.props.extraRippleRadius
+      || DEFAULT_EXTRA_RIPPLE_RADII);
     this.setState({
       rippleRadii,
 
@@ -186,14 +185,14 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
     });
   };
 
-  /** Touch event handler */
-  private onTouch = ({ type }: TouchEvent) => {
+  // Touch events handling
+  private onTouch = ({type}: TouchEvent) => {
     if (type === 'TOUCH_UP' && this.props.editable) {
       this.confirmToggle();
     }
   };
 
-  /** animate the checked state, by scaling the inner circle */
+  // animate the checked state, by scaling the inner circle
   private aniToggle(checked: boolean) {
     Animated.timing(this.animatedTickAlpha, {
       duration: 220,
@@ -201,7 +200,7 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
     }).start();
   }
 
-  /** When a toggle action (from the given state) is confirmed. */
+  // When a toggle action (from the given state) is confirmed.
   private confirmToggle() {
     const prevState = this.state.checked;
     const newState = !prevState;
