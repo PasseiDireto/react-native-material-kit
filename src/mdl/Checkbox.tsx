@@ -8,22 +8,23 @@
 // Created by ywu on 15/12/13.
 //
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Animated,
-  LayoutChangeEvent, Text,
+  LayoutChangeEvent,
+  Text,
   TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { TouchEvent } from '../internal/MKTouchable';
-import { AnimatedTick, TickProps } from '../internal/Tick';
-import MKColor from '../MKColor';
-import { getTheme } from '../theme';
-import { CheckedListener } from '../types';
-import * as utils from '../utils';
-import Ripple, { RippleProps } from './Ripple';
+import { TouchEvent } from "../internal/MKTouchable";
+import { AnimatedTick, TickProps } from "../internal/Tick";
+import MKColor from "../MKColor";
+import { getTheme } from "../theme";
+import { CheckedListener } from "../types";
+import * as utils from "../utils";
+import Ripple, { RippleProps } from "./Ripple";
 
 const DEFAULT_EXTRA_RIPPLE_RADII = 5;
 
@@ -65,17 +66,17 @@ const defaultProps: CheckboxProps = {
   checked: false,
   editable: true,
   maskColor: MKColor.Transparent,
-  pointerEvents: 'box-only',
+  pointerEvents: "box-only",
 
   style: {
     height: 20,
     width: 20,
 
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 1,
     borderWidth: 2,
-    justifyContent: 'center',
-    overflow: 'hidden', // To fix the Android overflow issue on Android SDK 26
+    justifyContent: "center",
+    overflow: "hidden", // To fix the Android overflow issue on Android SDK 26
   },
 };
 
@@ -108,21 +109,30 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
    * @see https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html?#preferred-solutions
    */
   UNSAFE_componentWillReceiveProps(nextProps: CheckboxProps) {
-    if (nextProps.checked !== this.props.checked && nextProps !== this.state.checked) {
+    if (
+      nextProps.checked !== this.props.checked &&
+      nextProps !== this.state.checked
+    ) {
       this.initView(nextProps.checked || false);
     }
   }
 
   render() {
     const defaultStyle = this.theme.checkboxStyle;
-    const mergedStyle = Object.assign({}, defaultStyle, utils.extractProps(this, [
-      'borderOnColor',
-      'borderOffColor',
-      'fillColor',
-      'rippleColor',
-      'inset',
-    ])) as CheckboxProps;
-    const borderColor = this.state.checked ? mergedStyle.borderOnColor : mergedStyle.borderOffColor;
+    const mergedStyle = Object.assign(
+      {},
+      defaultStyle,
+      utils.extractProps(this, [
+        "borderOnColor",
+        "borderOffColor",
+        "fillColor",
+        "rippleColor",
+        "inset",
+      ])
+    ) as CheckboxProps;
+    const borderColor = this.state.checked
+      ? mergedStyle.borderOnColor
+      : mergedStyle.borderOffColor;
 
     return (
       <TouchableWithoutFeedback {...utils.extractTouchableProps(this)}>
@@ -133,9 +143,9 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
           rippleColor={mergedStyle.rippleColor}
           onTouch={this.onTouch}
           style={{
-            alignItems: 'center',
+            alignItems: "center",
             height: this.state.height,
-            justifyContent: 'center',
+            justifyContent: "center",
             width: this.state.width,
           }}
         >
@@ -144,7 +154,7 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
               defaultProps.style,
               this.props.style,
               {
-                alignItems: 'stretch',
+                alignItems: "stretch",
                 borderColor,
               },
             ]}
@@ -169,14 +179,19 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
     this.aniToggle(checked);
   }
 
-  private onLayout = ({nativeEvent: {layout: {width, height}}}: LayoutChangeEvent) => {
+  private onLayout = ({
+    nativeEvent: {
+      layout: { width, height },
+    },
+  }: LayoutChangeEvent) => {
     if (width === this.state.width && height === this.state.height) {
       return;
     }
 
     const size = Math.min(width, height);
-    const rippleRadii = size * Math.SQRT2 / 2 + (this.props.extraRippleRadius
-      || DEFAULT_EXTRA_RIPPLE_RADII);
+    const rippleRadii =
+      (size * Math.SQRT2) / 2 +
+      (this.props.extraRippleRadius || DEFAULT_EXTRA_RIPPLE_RADII);
     this.setState({
       rippleRadii,
 
@@ -186,8 +201,8 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
   };
 
   // Touch events handling
-  private onTouch = ({type}: TouchEvent) => {
-    if (type === 'TOUCH_UP' && this.props.editable) {
+  private onTouch = ({ type }: TouchEvent) => {
+    if (type === "TOUCH_UP" && this.props.editable) {
       this.confirmToggle();
     }
   };
@@ -197,6 +212,7 @@ export default class Checkbox extends Component<CheckboxProps, CheckboxState> {
     Animated.timing(this.animatedTickAlpha, {
       duration: 220,
       toValue: checked ? 1 : 0,
+      useNativeDriver: false,
     }).start();
   }
 

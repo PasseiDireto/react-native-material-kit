@@ -8,19 +8,12 @@
 // Created by ywu on 16/2/13.
 //
 
-import React, {
-  Component,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  Animated,
-  Easing,
-  View,
-} from 'react-native';
-import { ViewPropTypes } from '../utils';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Animated, Easing, View } from "react-native";
+import { ViewPropTypes } from "../utils";
 
-
-import { getTheme } from '../theme';
+import { getTheme } from "../theme";
 
 //
 // ## <section id='IndeterminateProgress'>IndeterminateProgress</section>
@@ -51,11 +44,13 @@ class IndeterminateProgress extends Component {
     this.theme = getTheme();
     this._totalLength = 0; // line length when progress is 100%
     this._height = new Animated.Value(0); // height of the progress or line width
-    this._animatedBlock1 = { // state of the 1st progress block
+    this._animatedBlock1 = {
+      // state of the 1st progress block
       left: new Animated.Value(0),
       right: new Animated.Value(0),
     };
-    this._animatedBlock2 = { // state of the 2nd progress block
+    this._animatedBlock2 = {
+      // state of the 2nd progress block
       left: new Animated.Value(0),
       right: new Animated.Value(0),
     };
@@ -63,7 +58,11 @@ class IndeterminateProgress extends Component {
   }
 
   // property initializers begin
-  _onLayout = ({ nativeEvent: { layout: { width, height } } }) => {
+  _onLayout = ({
+    nativeEvent: {
+      layout: { width, height },
+    },
+  }) => {
     if (width > 0 && this._totalLength !== width) {
       this._totalLength = width;
       this._height.setValue(height);
@@ -85,10 +84,12 @@ class IndeterminateProgress extends Component {
         Animated.timing(this._animatedBlock1.left, {
           toValue: this._totalLength * 0.25,
           duration: this.props.progressAniDuration || 1250,
+          useNativeDriver: false,
         }),
         Animated.timing(this._animatedBlock1.right, {
           toValue: 0,
           duration: this.props.progressAniDuration || 1250,
+          useNativeDriver: false,
         }),
       ]),
       Animated.parallel([
@@ -96,10 +97,13 @@ class IndeterminateProgress extends Component {
           toValue: this._totalLength,
           duration: this.props.progressAniDuration || 500,
           easing: Easing.out(Easing.quad),
+          useNativeDriver: false,
         }),
         this._getBlock2Ani(),
       ]),
-    ]).start(({ finished }) => finished && setImmediate(this._aniUpdateProgress));
+    ]).start(
+      ({ finished }) => finished && setImmediate(this._aniUpdateProgress)
+    );
   }
 
   _getBlock2Ani() {
@@ -110,17 +114,20 @@ class IndeterminateProgress extends Component {
       Animated.timing(this._animatedBlock2.right, {
         toValue: this._totalLength * 0.75,
         duration: this.props.progressAniDuration || 500,
+        useNativeDriver: false,
       }),
       Animated.parallel([
         Animated.timing(this._animatedBlock2.left, {
           toValue: this._totalLength,
           duration: this.props.progressAniDuration || 705,
           easing: Easing.out(Easing.quad),
+          useNativeDriver: false,
         }),
         Animated.timing(this._animatedBlock2.right, {
           toValue: 0,
           duration: this.props.progressAniDuration || 700,
           easing: Easing.out(Easing.quad),
+          useNativeDriver: false,
         }),
       ]),
     ]);
@@ -131,18 +138,23 @@ class IndeterminateProgress extends Component {
     const style = {
       backgroundColor: progressTheme.backgroundColor,
     };
-    const progressColor = this.props.progressColor || progressTheme.progressColor;
+    const progressColor =
+      this.props.progressColor || progressTheme.progressColor;
 
     return (
       <View // the background layer
         ref="bg"
-        style={[IndeterminateProgress.defaultProps.style, style, this.props.style]}
+        style={[
+          IndeterminateProgress.defaultProps.style,
+          style,
+          this.props.style,
+        ]}
         onLayout={this._onLayout}
       >
         <Animated.View // the 1st animated progress block
           style={{
             backgroundColor: progressColor,
-            position: 'absolute',
+            position: "absolute",
             left: this._animatedBlock1.left,
             right: this._animatedBlock1.right,
             height: this._height,
@@ -151,7 +163,7 @@ class IndeterminateProgress extends Component {
         <Animated.View // the 2nd animated progress block
           style={{
             backgroundColor: progressColor,
-            position: 'absolute',
+            position: "absolute",
             left: this._animatedBlock2.left,
             right: this._animatedBlock2.right,
             height: this._height,
@@ -161,7 +173,6 @@ class IndeterminateProgress extends Component {
     );
   }
 }
-
 
 // ## Public interface
 module.exports = IndeterminateProgress;

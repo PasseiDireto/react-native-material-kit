@@ -8,19 +8,12 @@
 // Created by ywu on 15/8/7.
 //
 
-import React, {
-  Component,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  Animated,
-  Easing,
-  View,
-} from 'react-native';
-import { ViewPropTypes } from '../utils';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Animated, Easing, View } from "react-native";
+import { ViewPropTypes } from "../utils";
 
-
-import { getTheme } from '../theme';
+import { getTheme } from "../theme";
 
 //
 // ## <section id='Progress'>Progress</section>
@@ -80,7 +73,11 @@ class Progress extends Component {
   }
 
   // property initializers begin
-  _onLayout = ({ nativeEvent: { layout: { width, height } } }) => {
+  _onLayout = ({
+    nativeEvent: {
+      layout: { width, height },
+    },
+  }) => {
     if (width > 0 && this._totalLength !== width) {
       this._totalLength = width;
       this._height.setValue(height);
@@ -99,6 +96,7 @@ class Progress extends Component {
       toValue: theProgress * this._totalLength,
       duration: this.props.progressAniDuration || 300,
       easing: Easing.out(Easing.quad),
+      useNativeDriver: false,
     }).start();
   }
 
@@ -110,6 +108,7 @@ class Progress extends Component {
     Animated.timing(this._animatedBufferLength, {
       toValue: buffer * this._totalLength,
       duration: this.props.bufferAniDuration || 200,
+      useNativeDriver: false,
     }).start();
   }
 
@@ -119,7 +118,8 @@ class Progress extends Component {
       backgroundColor: progressTheme.backgroundColor,
     };
     const bufferColor = this.props.bufferColor || progressTheme.bufferColor;
-    const progressColor = this.props.progressColor || progressTheme.progressColor;
+    const progressColor =
+      this.props.progressColor || progressTheme.progressColor;
 
     return (
       <View // the background layer
@@ -130,7 +130,7 @@ class Progress extends Component {
         <Animated.View // the buffering layer
           ref="bufferLayer"
           style={{
-            position: 'absolute',
+            position: "absolute",
             backgroundColor: bufferColor,
             width: this._animatedBufferLength,
             height: this._height,
@@ -139,7 +139,7 @@ class Progress extends Component {
         <Animated.View // the forefront layer showing progress
           ref="progressLayer"
           style={{
-            position: 'absolute',
+            position: "absolute",
             backgroundColor: progressColor,
             width: this._animatedLength,
             height: this._height,
@@ -150,7 +150,7 @@ class Progress extends Component {
   }
 }
 
-Object.defineProperty(Progress.prototype, 'progress', {
+Object.defineProperty(Progress.prototype, "progress", {
   // Update the current progress.
   // {`Number`} `value` the current progress, 0 ~ 1
   set(value) {
@@ -168,7 +168,7 @@ Object.defineProperty(Progress.prototype, 'progress', {
   enumerable: true,
 });
 
-Object.defineProperty(Progress.prototype, 'buffer', {
+Object.defineProperty(Progress.prototype, "buffer", {
   // Update the current percent of buffering.
   // {`Number`} `value` current percent of buffering, 0 ~ 1
   set(value) {
@@ -185,7 +185,6 @@ Object.defineProperty(Progress.prototype, 'buffer', {
 
   enumerable: true,
 });
-
 
 // ## Public interface
 module.exports = Progress;

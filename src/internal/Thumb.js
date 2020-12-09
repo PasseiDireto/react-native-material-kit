@@ -8,23 +8,16 @@
 // Created by awaidman on 16/1/21.
 //
 
-import React, {
-  Component,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  Animated,
-  PanResponder,
-  View,
-} from 'react-native';
-import { ViewPropTypes } from '../utils';
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Animated, PanResponder, View } from "react-native";
+import { ViewPropTypes } from "../utils";
 
 // Default color of the upper part of the track
-const DEFAULT_UPPER_TRACK_COLOR = '#cccccc';
+const DEFAULT_UPPER_TRACK_COLOR = "#cccccc";
 
 // Color of the thumb when lowest value is chosen
-const LOWEST_VALUE_THUMB_COLOR = 'white';
+const LOWEST_VALUE_THUMB_COLOR = "white";
 
 // The max scale of the thumb
 const THUMB_SCALE_RATIO = 1.3;
@@ -42,8 +35,9 @@ class Thumb extends Component {
     super(props);
     this.x = 0; // current x-axis position
 
-    this._trackMarginH = (props.radius + THUMB_BORDER_WIDTH) * THUMB_SCALE_RATIO
-      + TRACK_EXTRA_MARGIN_H;
+    this._trackMarginH =
+      (props.radius + THUMB_BORDER_WIDTH) * THUMB_SCALE_RATIO +
+      TRACK_EXTRA_MARGIN_H;
     this._panResponder = {};
     this._animatedLeft = new Animated.Value(0);
     this._animatedScale = new Animated.Value(1);
@@ -62,10 +56,18 @@ class Thumb extends Component {
       onPanResponderTerminationRequest: () => false,
       onShouldBlockNativeResponder: () => true,
 
-      onPanResponderGrant: (evt) => { this.props.onGrant(this, evt); },
-      onPanResponderMove: (evt) => { this.props.onMove(this, evt); },
-      onPanResponderRelease: (evt) => { this.props.onEnd(this, evt); },
-      onPanResponderTerminate: (evt) => { this.props.onEnd(this, evt); },
+      onPanResponderGrant: (evt) => {
+        this.props.onGrant(this, evt);
+      },
+      onPanResponderMove: (evt) => {
+        this.props.onMove(this, evt);
+      },
+      onPanResponderRelease: (evt) => {
+        this.props.onEnd(this, evt);
+      },
+      onPanResponderTerminate: (evt) => {
+        this.props.onEnd(this, evt);
+      },
     });
 
     this._onRadiiUpdate(this.props);
@@ -126,10 +128,12 @@ class Thumb extends Component {
       Animated.timing(this._animatedScale, {
         toValue: THUMB_SCALE_RATIO,
         duration: 100,
+        useNativeDriver: false,
       }),
       Animated.timing(this._animatedLeft, {
         toValue: x0 - this._containerRadii,
         duration: 0,
+        useNativeDriver: false,
       }),
     ]).start();
   }
@@ -162,18 +166,17 @@ class Thumb extends Component {
   render() {
     return (
       <Animated.View
-        style={[ // the outer circle to draw the border
+        style={[
+          // the outer circle to draw the border
           this.props.style,
           {
             width: this._containerDia,
             height: this._containerDia,
             backgroundColor: this.state.borderColor,
             borderRadius: this._containerRadii,
-            position: 'absolute',
+            position: "absolute",
             left: this._animatedLeft,
-            transform: [
-              { scale: this._animatedScale },
-            ],
+            transform: [{ scale: this._animatedScale }],
           },
         ]}
         {...this._panResponder.panHandlers}
@@ -185,7 +188,8 @@ class Thumb extends Component {
         }}
       >
         <View
-          style={{ // the inner circle
+          style={{
+            // the inner circle
             width: this._dia,
             height: this._dia,
             backgroundColor: this.state.color,

@@ -10,7 +10,7 @@
 // Created by ywu on 15/7/28.
 //
 
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from "react";
 
 import {
   Animated,
@@ -18,12 +18,12 @@ import {
   TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps,
   View,
-} from 'react-native';
+} from "react-native";
 
-import { getTheme, Theme } from '../theme';
-import { CheckedListener } from '../types';
-import * as utils from '../utils';
-import AnimatedThumb, { Thumb } from './SwitchThumb';
+import { getTheme, Theme } from "../theme";
+import { CheckedListener } from "../types";
+import * as utils from "../utils";
+import AnimatedThumb, { Thumb } from "./SwitchThumb";
 
 const defaultThumbRadius = 14;
 const defaultTrackLength = 48;
@@ -121,7 +121,10 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
 
   UNSAFE_componentWillReceiveProps(nextProps: SwitchProps) {
     // console.log('--- Switch.componentWillReceiveProps');
-    if (nextProps.checked !== this.props.checked && nextProps.checked !== this.state.checked) {
+    if (
+      nextProps.checked !== this.props.checked &&
+      nextProps.checked !== this.state.checked
+    ) {
       this.initLayout(nextProps);
     }
   }
@@ -135,13 +138,17 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
       onLongPress: this.props.onLongPress,
     };
 
-    const mergedStyle = Object.assign({}, this.theme.switchStyle, utils.compact( {
-      offColor: this.props.offColor,
-      onColor: this.props.onColor,
-      rippleColor: this.props.rippleColor,
-      thumbOffColor: this.props.thumbOffColor,
-      thumbOnColor: this.props.thumbOnColor,
-    }));
+    const mergedStyle = Object.assign(
+      {},
+      this.theme.switchStyle,
+      utils.compact({
+        offColor: this.props.offColor,
+        onColor: this.props.onColor,
+        rippleColor: this.props.rippleColor,
+        thumbOffColor: this.props.thumbOffColor,
+        thumbOnColor: this.props.thumbOnColor,
+      })
+    );
 
     const thumbFrame = this.state.thumbFrame;
     const thumbProps = {
@@ -173,10 +180,7 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
       >
-        <View
-          pointerEvents="box-only"
-          style={this.props.style}
-        >
+        <View pointerEvents="box-only" style={this.props.style}>
           <View // the 'track' part
             style={{
               backgroundColor: this.getBgColor(mergedStyle),
@@ -199,12 +203,12 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
   // in order to access the component functions defined in `Thumb`
   private get thumb(): Thumb | null {
     const animatedThumb = this.thumbRef.current as any;
-    return animatedThumb && animatedThumb.getNode() as Thumb;
+    return animatedThumb && (animatedThumb.getNode() as Thumb);
   }
 
   private getBgColor(theme: Theme): string {
-    const onColor = this.props.onColor || theme.onColor as string;
-    const offColor = this.props.offColor || theme.offColor as string;
+    const onColor = this.props.onColor || (theme.onColor as string);
+    const offColor = this.props.offColor || (theme.offColor as string);
     return this.state.checked ? onColor : offColor;
   }
 
@@ -224,10 +228,11 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
   };
 
   // Layout the thumb according to the size of the track
-  private layoutThumb(checked: boolean | undefined,
-                      thumbRadius: number | undefined,
-                      trackLength: number | undefined,
-                      trackSize: number | undefined
+  private layoutThumb(
+    checked: boolean | undefined,
+    thumbRadius: number | undefined,
+    trackLength: number | undefined,
+    trackSize: number | undefined
   ): any {
     trackSize = trackSize || defaultTrackSize;
     trackLength = trackLength || defaultTrackLength;
@@ -258,7 +263,7 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
       props.checked || false,
       props.thumbRadius,
       props.trackLength,
-      props.trackSize,
+      props.trackSize
     );
     this.setState({
       ...nextState,
@@ -273,6 +278,7 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
     Animated.timing(this.animatedThumbLeft, {
       duration: this.props.thumbAniDuration || 300,
       toValue: newX,
+      useNativeDriver: false,
     }).start(() => {
       this.state.thumbFrame.x = newX;
     });
@@ -297,12 +303,12 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
   // When a toggle action is confirmed.
   private confirmToggle() {
     const prevState = this.state.checked;
-    this.setState({checked: !prevState}, () => {
+    this.setState({ checked: !prevState }, () => {
       this.thumb && this.thumb.confirmToggle(prevState);
       this.translateThumb();
 
       if (this.props.onCheckedChange) {
-        this.props.onCheckedChange({checked: this.state.checked});
+        this.props.onCheckedChange({ checked: this.state.checked });
       }
     });
   }

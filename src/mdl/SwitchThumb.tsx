@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import {
-  Animated,
-  StyleProp,
-  View,
-  ViewProps,
-  ViewStyle,
-} from 'react-native';
+import { Animated, StyleProp, View, ViewProps, ViewStyle } from "react-native";
 
-import MKColor from '../MKColor';
+import MKColor from "../MKColor";
 
 export type ThumbProps = {
   checked: boolean;
@@ -26,12 +20,12 @@ interface ThumbState {
 
 const defaultProps: ThumbProps = {
   checked: false,
-  pointerEvents: 'none',
+  pointerEvents: "none",
   rippleAniDuration: 250,
   rippleRadius: 14,
   style: {
     elevation: 2,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOffset: {
       height: 1,
       width: 0,
@@ -65,7 +59,10 @@ export class Thumb extends Component<ThumbProps, ThumbState> {
    * @see https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html?#preferred-solutions
    */
   UNSAFE_componentWillReceiveProps(nextProps: ThumbProps) {
-    if (nextProps.checked !== this.props.checked && nextProps.checked !== this.state.checked) {
+    if (
+      nextProps.checked !== this.props.checked &&
+      nextProps.checked !== this.state.checked
+    ) {
       this.setState({ checked: nextProps.checked });
     }
   }
@@ -93,10 +90,12 @@ export class Thumb extends Component<ThumbProps, ThumbState> {
       Animated.timing(this.animatedRippleAlpha, {
         duration: this.props.rippleAniDuration,
         toValue: 1,
+        useNativeDriver: false,
       }),
       Animated.timing(this.animatedRippleScale, {
         duration: this.props.rippleAniDuration,
         toValue: 1,
+        useNativeDriver: false,
       }),
     ]);
 
@@ -117,10 +116,12 @@ export class Thumb extends Component<ThumbProps, ThumbState> {
         Animated.timing(this.animatedRippleScale, {
           duration: this.props.rippleAniDuration || 250,
           toValue: 0,
+          useNativeDriver: false,
         }),
         Animated.timing(this.animatedRippleAlpha, {
           duration: this.props.rippleAniDuration || 250,
           toValue: 0,
+          useNativeDriver: false,
         }),
       ]).start();
 
@@ -139,18 +140,25 @@ export class Thumb extends Component<ThumbProps, ThumbState> {
 
     return (
       <View
-        style={[this.props.style, {
-          backgroundColor: MKColor.Transparent,
-          height: rippleSize,
-          position: 'absolute',
-          width: rippleSize,
-        }]}
+        style={[
+          this.props.style,
+          {
+            backgroundColor: MKColor.Transparent,
+            height: rippleSize,
+            position: "absolute",
+            width: rippleSize,
+          },
+        ]}
       >
         <View // the circle
           style={[
             defaultProps.style,
             this.props.thumbStyle,
-            {backgroundColor: this.state.checked ? this.props.onColor : this.props.offColor},
+            {
+              backgroundColor: this.state.checked
+                ? this.props.onColor
+                : this.props.offColor,
+            },
           ]}
         />
         <Animated.View // the ripple layer
@@ -163,10 +171,8 @@ export class Thumb extends Component<ThumbProps, ThumbState> {
             backgroundColor: this.props.rippleColor,
             borderRadius: this.props.rippleRadius,
             opacity: this.animatedRippleAlpha,
-            position: 'absolute',
-            transform: [
-              { scale: this.animatedRippleScale },
-            ],
+            position: "absolute",
+            transform: [{ scale: this.animatedRippleScale }],
           }}
         />
       </View>
@@ -176,4 +182,4 @@ export class Thumb extends Component<ThumbProps, ThumbState> {
 
 // Enable animations on `Thumb`
 const AnimatedThumb = Animated.createAnimatedComponent(Thumb);
-export default AnimatedThumb
+export default AnimatedThumb;

@@ -8,20 +8,13 @@
 // Created by ywu on 15/8/23.
 //
 
-import React, {
-  Component,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  Animated,
-  PanResponder,
-  View,
-} from 'react-native';
-import { ViewPropTypes } from '../utils';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Animated, PanResponder, View } from "react-native";
+import { ViewPropTypes } from "../utils";
 
-
-import { getTheme } from '../theme';
-import Thumb from '../internal/Thumb';
+import { getTheme } from "../theme";
+import Thumb from "../internal/Thumb";
 
 // The max scale of the thumb
 const THUMB_SCALE_RATIO = 1.3;
@@ -32,7 +25,6 @@ const THUMB_BORDER_WIDTH = 2;
 // extra spacing enlarging the touchable area
 const TRACK_EXTRA_MARGIN_V = 5;
 const TRACK_EXTRA_MARGIN_H = 5;
-
 
 // ## <section id='Slider'>Slider</section>
 class Slider extends Component {
@@ -108,13 +100,13 @@ class Slider extends Component {
       onPanResponderGrant: (evt) => {
         this._prevPointerX = evt.nativeEvent.locationX;
         this._onTouchEvent({
-          type: 'TOUCH_DOWN',
+          type: "TOUCH_DOWN",
           x: this._prevPointerX,
         });
       },
       onPanResponderMove: (evt, gestureState) => {
         this._onTouchEvent({
-          type: 'TOUCH_MOVE',
+          type: "TOUCH_MOVE",
           x: this._prevPointerX + gestureState.dx,
         });
       },
@@ -141,7 +133,11 @@ class Slider extends Component {
   }
 
   // region Property initializers
-  _onTrackLayout = ({ nativeEvent: { layout: { width } } }) => {
+  _onTrackLayout = ({
+    nativeEvent: {
+      layout: { width },
+    },
+  }) => {
     if (this._trackTotalLength !== width) {
       this._trackTotalLength = width;
       this._aniUpdateValue(this.value);
@@ -198,7 +194,7 @@ class Slider extends Component {
     }
 
     this._onTouchEvent({
-      type: cancelled ? 'TOUCH_CANCEL' : 'TOUCH_UP',
+      type: cancelled ? "TOUCH_CANCEL" : "TOUCH_UP",
       x: this._prevPointerX,
     });
   }
@@ -206,18 +202,18 @@ class Slider extends Component {
   // Touch events handling
   _onTouchEvent(evt) {
     switch (evt.type) {
-      case 'TOUCH_DOWN':
+      case "TOUCH_DOWN":
         this._emitOnPressIn();
         this._updateValueByTouch(evt);
         break;
-      case 'TOUCH_MOVE':
+      case "TOUCH_MOVE":
         this._updateValueByTouch(evt);
         break;
-      case 'TOUCH_UP':
+      case "TOUCH_UP":
         this._emitOnPressOut();
         this._confirmUpdateValueByTouch(evt);
         break;
-      case 'TOUCH_CANCEL':
+      case "TOUCH_CANCEL":
         // should not use the coordination inside a cancelled event
         this._emitOnPressOut();
         this._confirmUpdateValueByTouch();
@@ -247,13 +243,15 @@ class Slider extends Component {
 
   // Scale global xy coordinate values to track values
   _toSliderScale(value) {
-    const trackToRange = (this.props.max - this.props.min) / this._trackTotalLength;
-    return (value * trackToRange) + this.props.min;
+    const trackToRange =
+      (this.props.max - this.props.min) / this._trackTotalLength;
+    return value * trackToRange + this.props.min;
   }
 
   // Scale track values to global xy coordinate system
   _toPixelScale(value) {
-    const rangeToTrack = this._trackTotalLength / (this.props.max - this.props.min);
+    const rangeToTrack =
+      this._trackTotalLength / (this.props.max - this.props.min);
     return (value - this.props.min) * rangeToTrack;
   }
 
@@ -265,13 +263,15 @@ class Slider extends Component {
 
     if (diff >= half) {
       const multiplier = Math.round(current / inc);
-      return (inc * multiplier);
+      return inc * multiplier;
     }
 
-    return (current - diff);
-  }
+    return current - diff;
+  };
 
-  _defaultStepIncrement = () => this._toPixelScale(this.props.max) / ((this.props.max - this.props.min) / (this.props.step));
+  _defaultStepIncrement = () =>
+    this._toPixelScale(this.props.max) /
+    ((this.props.max - this.props.min) / this.props.step);
 
   _confirmUpdateValueByTouch(evt) {
     if (evt) {
@@ -289,6 +289,7 @@ class Slider extends Component {
     Animated.timing(this._animatedTrackLength, {
       toValue: x,
       duration: 0,
+      useNativeDriver: false,
     }).start();
   }
 
@@ -300,17 +301,19 @@ class Slider extends Component {
   _onThumbRadiiUpdate(props) {
     this._thumbRadii = props.thumbRadius;
     this._thumbRadiiWithBorder = this._thumbRadii + THUMB_BORDER_WIDTH;
-    this._trackMarginV = this._thumbRadiiWithBorder * THUMB_SCALE_RATIO
-      + TRACK_EXTRA_MARGIN_V - this.props.trackSize / 2;
-    this._trackMarginH = this._thumbRadiiWithBorder * THUMB_SCALE_RATIO
-      + TRACK_EXTRA_MARGIN_H;
+    this._trackMarginV =
+      this._thumbRadiiWithBorder * THUMB_SCALE_RATIO +
+      TRACK_EXTRA_MARGIN_V -
+      this.props.trackSize / 2;
+    this._trackMarginH =
+      this._thumbRadiiWithBorder * THUMB_SCALE_RATIO + TRACK_EXTRA_MARGIN_H;
   }
 
   _verifyStep() {
     const divisor = this.props.max / this.props.step;
     if (divisor % 1 !== 0) {
       throw new Error(
-        `Given step ( ${this.props.step} ) must be a divisor of max ( ${this.props.max} )`,
+        `Given step ( ${this.props.step} ) must be a divisor of max ( ${this.props.max} )`
       );
     }
   }
@@ -327,19 +330,24 @@ class Slider extends Component {
     };
 
     const sliderStyle = this.theme.sliderStyle;
-    const lowerTrackColor = this.props.lowerTrackColor || sliderStyle.lowerTrackColor;
-    const upperTrackColor = this.props.upperTrackColor || sliderStyle.upperTrackColor;
+    const lowerTrackColor =
+      this.props.lowerTrackColor || sliderStyle.lowerTrackColor;
+    const upperTrackColor =
+      this.props.upperTrackColor || sliderStyle.upperTrackColor;
 
     return (
       <View
         ref="container"
-        style={[this.props.style, {
-          padding: 0,
-          paddingTop: 0,
-          paddingBottom: 0,
-          paddingLeft: 0,
-          paddingRight: 0,
-        }]}
+        style={[
+          this.props.style,
+          {
+            padding: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+          },
+        ]}
         pointerEvents="box-only"
         {...this._panResponder.panHandlers}
       >
@@ -355,7 +363,7 @@ class Slider extends Component {
           <Animated.View
             ref="lowerTrack"
             style={{
-              position: 'absolute',
+              position: "absolute",
               width: this._animatedTrackLength,
               height: this.props.trackSize,
               backgroundColor: lowerTrackColor,
@@ -371,7 +379,9 @@ class Slider extends Component {
           disabledColor={upperTrackColor}
           touchPadding={this.props.thumbPadding}
           style={{
-            top: this._thumbRadiiWithBorder * (THUMB_SCALE_RATIO - 1) + TRACK_EXTRA_MARGIN_V,
+            top:
+              this._thumbRadiiWithBorder * (THUMB_SCALE_RATIO - 1) +
+              TRACK_EXTRA_MARGIN_V,
           }}
         />
       </View>
@@ -380,7 +390,7 @@ class Slider extends Component {
 }
 
 // Public api to update the current value
-Object.defineProperty(Slider.prototype, 'value', {
+Object.defineProperty(Slider.prototype, "value", {
   set(value) {
     this._internalSetValue(value);
     this._aniUpdateValue(value);
@@ -390,7 +400,6 @@ Object.defineProperty(Slider.prototype, 'value', {
   },
   enumerable: true,
 });
-
 
 // ## Public interface
 module.exports = Slider;
