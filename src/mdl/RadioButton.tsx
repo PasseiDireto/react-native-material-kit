@@ -91,7 +91,7 @@ export default class RadioButton extends Component<RadioButtonProps, RadioButton
     this.state = {
       checked: false,
       height: 0,
-      width: 0,
+      width: null,
     };
   }
 

@@ -2,7 +2,7 @@
   "_from": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
   "_id": "react-native-material-kit@0.5.1",
   "_inBundle": false,
-  "_integrity": "sha512-QM4lKAc8/xvjZopOWHNy1rJgmEP5MEZfd3XhwAjBGiMcpUvBq1kHRjHnbaMzo4GEsGg23oeYlnAxF0h4SrQ/YA==",
+  "_integrity": "sha512-h+UPUZgnAEwMYQwHJOJyt25Ev1RLBGNA22rgEtJm/J1aOCFquBleJtkp31kNLj1Qp3fIKeig1EPCeK7jA+AFOA==",
   "_location": "/react-native-material-kit",
   "_phantomChildren": {},
   "_requested": {
@@ -14,11 +14,13 @@
     "saveSpec": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
     "fetchSpec": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master"
   },
-  "_requiredBy": ["/"],
+  "_requiredBy": [
+    "/"
+  ],
   "_resolved": "https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
-  "_shasum": "dd63d88b798bc0d83443ca328f95112697292fa4",
+  "_shasum": "8eb0707872911f7a0d391dc979d34da71c01c678",
   "_spec": "react-native-material-kit@https://github.com/PasseiDireto/react-native-material-kit/tarball/master",
-  "_where": "/Users/antonio.claudio/Documents/GitHub/mobile-app",
+  "_where": "/Users/arthur.garcia/Dev/PD/mobile/signin/mobile-app",
   "author": {
     "name": "Yingxin Wu",
     "email": "yingxinwu.g@gmail.com"
