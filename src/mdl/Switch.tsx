@@ -198,8 +198,7 @@ export default class Switch extends Component<SwitchProps, SwitchState> {
   // Un-boxing the `Thumb` node from `AnimatedComponent`,
   // in order to access the component functions defined in `Thumb`
   private get thumb(): Thumb | null {
-    const animatedThumb = this.thumbRef.current as any;
-    return animatedThumb && animatedThumb.getNode() as Thumb;
+    return this.thumbRef.current as any;
   }
 
   private getBgColor(theme: Theme): string {
